@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base href="$FLUTTER_BASE_HREF">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="KrishiBondhu — weather-based crop advisory and smart market price comparison for farmers.">
+
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="KrishiBondhu">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <link rel="icon" type="image/png" href="favicon.png"/>
+
+  <title>KrishiBondhu</title>
+  <link rel="manifest" href="manifest.json">
+
+  <style>
+    body { margin: 0; background: #12633A; }
+    #boot {
+      position: fixed; inset: 0; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 14px;
+      background: linear-gradient(160deg, #12633A, #16A34A);
+      font-family: sans-serif; color: #fff;
+    }
+    #boot .mark {
+      width: 92px; height: 92px; border-radius: 26px; display: grid; place-items: center;
+      background: rgba(255,255,255,.16); font-size: 50px;
+    }
+    #boot .nm { font-size: 26px; font-weight: 800; }
+    #boot .tg { font-size: 13px; opacity: .85; }
+    #boot .sp { width: 26px; height: 26px; border: 3px solid rgba(255,255,255,.35);
+      border-top-color: #fff; border-radius: 50%; animation: spin .9s linear infinite; margin-top: 8px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+  <div id="boot">
+    <div class="mark">🌾</div>
+    <div class="nm">KrishiBondhu</div>
+    <div class="tg">Farmer's weather &amp; market friend</div>
+    <div class="sp"></div>
+  </div>
+  <script>
+    // This app is built with --pwa-strategy=none, so it has no service worker.
+    // Older installs may still have one registered from a previous build, which
+    // would keep serving that old cached app forever and silently ignore every
+    // rebuild. Evict any leftover worker and its caches on load.
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations()
+        .then(function (rs) { rs.forEach(function (r) { r.unregister(); }); })
+        .catch(function () {});
+    }
+    if (window.caches && caches.keys) {
+      caches.keys()
+        .then(function (ks) { ks.forEach(function (k) { caches.delete(k); }); })
+        .catch(function () {});
+    }
+
+    window.addEventListener('flutter-first-frame', function () {
+      var b = document.getElementById('boot');
+      if (b) b.remove();
+    });
+  </script>
+  <script src="flutter_bootstrap.js" async></script>
+</body>
+</html>
